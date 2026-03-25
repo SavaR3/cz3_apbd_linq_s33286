@@ -1,9 +1,15 @@
+using System.Security.Cryptography;
 using LinqConsoleLab.PL.Data;
+using LinqConsoleLab.PL.Models;
 
 namespace LinqConsoleLab.PL.Exercises;
 
 public sealed class ZadaniaLinq
 {
+    private List<Student> studenci;
+    private List<Przedmiot> przedmioty;
+    private List<Prowadzacy> prowadząci;
+    private List<Zapis> zapisy;
     /// <summary>
     /// Zadanie:
     /// Wyszukaj wszystkich studentów mieszkających w Warsaw.
@@ -16,7 +22,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie01_StudenciZWarszawy()
     {
-        throw Niezaimplementowano(nameof(Zadanie01_StudenciZWarszawy));
+        var result = studenci
+            .Where(s => s.Miasto == "Warsaw")
+            .Select(s => $"{s.NumerIndeksu} {s.Imie} {s.Nazwisko} {s.Miasto}")
+            .ToList();
+        
+        return result;
     }
 
     /// <summary>
@@ -30,7 +41,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie02_AdresyEmailStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie02_AdresyEmailStudentow));
+        var res = studenci
+            .Select(s => s.Email)
+            .ToList();
+            
+        return res;
     }
 
     /// <summary>
@@ -45,7 +60,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie03_StudenciPosortowani()
     {
-        throw Niezaimplementowano(nameof(Zadanie03_StudenciPosortowani));
+        return studenci
+            .OrderBy(s => s.Nazwisko)
+            .ThenBy(s => s.Imie)
+            .Select(s => $"{s.NumerIndeksu} {s.Imie} {s.Nazwisko}")
+            .ToList();
     }
 
     /// <summary>
@@ -60,7 +79,15 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie04_PierwszyPrzedmiotAnalityczny()
     {
-        throw Niezaimplementowano(nameof(Zadanie04_PierwszyPrzedmiotAnalityczny));
+        var res = przedmioty
+            .Where(k => k.Kategoria.Equals("Analitics"))
+            .Select(p => $"{p.Nazwa} {p.DataStartu}")
+            .FirstOrDefault();
+        
+        if (res == null)
+            return new List<string> {"Taki przedmiot nie istnieje"};
+        
+        return new List<string> { res };
     }
 
     /// <summary>
